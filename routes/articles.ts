@@ -17,11 +17,11 @@ const getAll = async (ctx: RouterContext, next: any) => {
 
 const getById = async (ctx: RouterContext, next: any) => {
    let id = ctx.params.id
-  if ((id < articles.length+1) && (id > 0)) {
-    ctx.body = articles[id-1];
-  } else {
-    ctx.status = 404;
-  }
+     if ((id < articles.length+1) && (id > 0)) {
+       ctx.body = articles[id-1];
+     } else {
+       ctx.status = 404;
+     }
   await next();
 }
 
@@ -34,14 +34,37 @@ const createArticle = async (ctx: RouterContext, next: any) => {
    await next();
 }
 
-const updateArticle = async (ctx: RouterContext, next: any) => {}
+const updateArticle = async (ctx: RouterContext, next: any) => {
+  let id = ctx.params.id
+  console.log(ctx.request.body)
+  let {title, fullText} = ctx.request.body;
+  if ((id < articles.length+1) && (id > 0)) {
+    articles[id-1].title = title;
+    articles[id-1].fullText = fullText;
+    ctx.status = 200;
+    ctx.body = articles;
+    } else {
+     ctx.status = 404;
+  }
+  await next();
+}
 
-const deleteArticle = async (ctx: RouterContext, next: any) => {}
+const deleteArticle = async (ctx: RouterContext, next: any) => {
+  let id = ctx.params.id
+  if ((id < articles.length+1) && (id > 0)) {
+    articles.splice(id-1, 1);
+    ctx.status = 200;
+    ctx.body = articles;
+    } else {
+     ctx.status = 404;
+  }
+  await next();
+}
 
 router.get('/', getAll);
 router.post('/', bodyParser(), createArticle);
 router.get('/:id([0-9]{1,})', getById);
-router.put('/:id([0-9]{1,})', updateArticle);
+router.put('/:id([0-9]{1,})',  bodyParser(), updateArticle);
 router.del('/:id([0-9]{1,})', deleteArticle);
 
 export {router};
