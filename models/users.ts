@@ -5,3 +5,6 @@ export const findByUsername = async (username) => {
   const user = await db.run_query(query, [username]);
   return user;
 }
+
+//https://www.passportjs.org/packages/passport-jwt/
+//https://www.passportjs.org/packages/passport-http/
