@@ -21,6 +21,27 @@ tags:
    description: Access and perform CRUD operations on blog entries.
 
 paths:
+  /articles:
+    get:
+     tags:
+       - Articles
+     description:
+       Get all articles.
+    post:
+      tags:
+        - Articles
+      description:
+        Create a new article.
+      requestBody:
+        description: All new article data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./article.json#/definitions/article
+      responses:
+        '201':
+          description: Articles created
   /articles/{id}:
     parameters:
       - in: path
@@ -44,6 +65,13 @@ paths:
        - Articles
      description:
        Update article by ID.
+     requestBody:
+        description: All new article data.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: ./article.json#/definitions/article
      responses:
        '200':
          description: Update confirmation and link to record.

@@ -1,8 +1,9 @@
 import * as db from '../helpers/database';
 
-export const findByUsername = async (username) => {
+export const findByUsername = async (username:string) => {
   const query = 'SELECT * from users where username = ?';
-  const user = await db.run_query(query, [username]);
+  let user_array = [username];
+  const user = await db.run_query(query, user_array);
   return user;
 }
 
